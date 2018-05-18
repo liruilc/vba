@@ -1,0 +1,11 @@
+Sub macro1()
+ Dim arr, rng As Range, i&, temp$
+ arr = Range("a2:a" & Range("a65536").End(xlUp).Row)
+ For i = 1 To UBound(arr)
+    temp = arr(i, 1)
+    If InStr(temp, "JCV") = 0 Then
+     If rng Is Nothing Then Set rng = Cells(i, 1) Else Set rng = Union(rng, Cells(i, 1))
+    End If
+   Next
+  If Not rng Is Nothing Then rng.EntireRow.Delete
+End Sub
