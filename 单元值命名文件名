@@ -1,0 +1,76 @@
+Option Explicit
+
+Public Sub 单元值命名文件名()
+'#------------------指定处理目录路径--------------------------------------------------------------
+Static pathna As String
+ With Application.FileDialog(msoFileDialogFolderPicker)
+        If .Show = -1 Then
+        pathna = .SelectedItems(1) 'pathna路径变量名
+        End If
+ End With
+ '#------
+ '##------------------目录文件夹数量与路径-------------------------------------------------------------------
+Dim fs As Object: Dim n, f, fd, nn, zf, zfd, file, afile: n = 2
+
+Set fs = CreateObject("Scripting.FileSystemObject") '变量fs为系统目录对象
+    Set f = fs.getfolder(pathna) '返回与指定路径中的文件夹相对应的 Folder对象
+        For Each fd In f.subfolders
+            Cells(n, 1) = fd.Name
+            Set zf = fs.getfolder(pathna & "\" & fd.Name)
+                For Each zfd In zf.subfolders
+                    'Cells(n + 1, 2) = zfd.Name
+                    'Cells(n + 1, 3) = Dir(zfd & "*.*")
+                    afile = zf & "\" & Dir(zfd & "*.*")
+'###----------------------------------------------------------------------------------------------------------------
+    Dim oWB As Workbook: Dim oWK As Worksheet: Dim sFPath As String
+    
+                           Set oWB = Excel.Workbooks.Open(afile)
+                           With oWB
+                               Set oWK = .Worksheets(1)
+                                   With oWK
+'####-------------------------------------------------------------------------------
+    Dim d As Object: Dim str As Variant: Dim strKey, fil As String: Dim iwsq, twsNo, lrow, i, ii As Long
+    
+                                  iwsq = Worksheets.Count
+                                 twsNo = ActiveSheet.Index
+                                 Set d = CreateObject("scripting.dictionary")
+                                  lrow = ActiveSheet.Cells.SpecialCells(xlCellTypeLastCell, xlLogical).Row
+                                   str = Range("I1:I" & lrow + 1 - 1)
+                                       For i = 2 To lrow
+                                      strKey = CStr(str(i, 1))
+                                            If Not d.exists(strKey) Then
+                                                   d.Add strKey, strKey
+                                            End If
+                                       Next i
+                    ActiveWorkbook.Worksheets.Add after:=Worksheets(iwsq)
+'Cells(2, 2).Value = d.Item("2")
+'Cells(2, 2).Value = d.Item(2)
+'Cells(1, 1).Value = "存货大类名称"
+                    Cells(1, 1).Resize(UBound(d.keys) + 1, 1) = Application.Transpose(d.keys)
+'#####-----------------------------------------------------------------------------------
+             ActiveWorkbook.Save
+             For ii = 1 To d.Count
+             
+                 fil = Cells(ii, 1)
+                    f = Dir(zfd & "\" & fil, vbDirectory)   '判断是否已经存在
+                     If f = "" Then
+                     MkDir (zfd & "\" & fil)   '如果不存在就建立
+                     End If
+             Next ii
+'#####-------------------------------------------------
+Sheets(twsNo).Select
+'####----------------------------------------------
+                                   End With
+                               .Close
+                           End With
+'###----------------------------------------------
+                    n = n + 1
+                Next
+            Set zf = Nothing
+            n = n + 1
+        Next
+     'Cells(1, 1) = pathna
+    Set f = Nothing
+Set fs = Nothing
+'##------
+End Sub
