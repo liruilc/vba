@@ -1,40 +1,42 @@
-Attribute VB_Name = "ÒÀµ¥ÔªÖµÃüÃûÎÄ¼şÃû"
+Attribute VB_Name = "ä¾å•å…ƒå€¼å‘½åæ–‡ä»¶å"
 Option Explicit
-Public Sub µ¥ÔªÖµÃüÃûÎÄ¼şÃû()
-'#----------------------------------------------------------------------------------Ö¸¶¨´¦ÀíÄ¿Â¼Â·¾¶---1
+Public Sub å•å…ƒå€¼å‘½åæ–‡ä»¶å()
+'#----------------------------------------------------------------------------------æŒ‡å®šå¤„ç†ç›®å½•è·¯å¾„---1
 Static pathna As String
  With Application.FileDialog(msoFileDialogFolderPicker)
         If .Show = -1 Then
-        pathna = .SelectedItems(1) 'pathnaÂ·¾¶±äÁ¿Ãû
+        pathna = .SelectedItems(1) 'pathnaè·¯å¾„å˜é‡å
         End If
  End With
 '#----------------------------------------------------------------------------------------------------1
-'##------------------------------------------------------------------------------Ä¿Â¼ÎÄ¼ş¼ĞÊıÁ¿ÓëÂ·¾¶---2
-Dim fs As Object: Dim n, f, fd, zf, zfd, file, afile, nfil, infil, fff: n = 2 '"n"'"n"ÆğÊ¼Êı±äÁ¿£¬
+'##------------------------------------------------------------------------------ç›®å½•æ–‡ä»¶å¤¹æ•°é‡ä¸è·¯å¾„---2
+Dim fs As Object: Dim n, f, fd, zf, zfd, file, afile, nfil, infil, fff: n = 2 '"n"'"n"èµ·å§‹æ•°å˜é‡ï¼Œ
 
-Set fs = CreateObject("Scripting.FileSystemObject") '±äÁ¿fsÎªÏµÍ³Ä¿Â¼¶ÔÏó'"fs"
-    Set f = fs.getfolder(pathna) '·µ»ØÓëÖ¸¶¨Â·¾¶ÖĞµÄÎÄ¼ş¼ĞÏà¶ÔÓ¦µÄ Folder¶ÔÏó'"f"
+Set fs = CreateObject("Scripting.FileSystemObject") 'å˜é‡fsä¸ºç³»ç»Ÿç›®å½•å¯¹è±¡'"fs"
+    Set f = fs.getfolder(pathna) 'è¿”å›ä¸æŒ‡å®šè·¯å¾„ä¸­çš„æ–‡ä»¶å¤¹ç›¸å¯¹åº”çš„ Folderå¯¹è±¡'"f"
         For Each fd In f.subfolders '"fd"
             Set zf = fs.getfolder(pathna & "\" & fd.Name) '"zf"
                 For Each zfd In zf.subfolders '"zdf"
                     afile = zf & "\" & Dir(zfd & "*.*") '"afile"
-'###------------------------------------------------------------------±éÀúÎÄ¼ş¼Ğ¼°×ÓÄ¿Â¼ÏÂµÄEXCELÎÄ¼ş---3
+'###------------------------------------------------------------------éå†æ–‡ä»¶å¤¹åŠå­ç›®å½•ä¸‹çš„EXCELæ–‡ä»¶---3
     Dim oWB, noWB As Workbook: Dim oWK As Worksheet: Dim sFPath As String
-    Application.DisplayAlerts = False
-                           Set oWB = Excel.Workbooks.Open(afile) 'oWB ´ò¿ª¹¤×÷²¾Â·¾¶ÏÂµÄ¹¤×÷²¾
+    Application.DisplayAlerts = False 'å…³é—­å±å¹•æ›´æ–°
+                           Set oWB = Excel.Workbooks.Open(afile) 'oWB æ‰“å¼€å·¥ä½œç°¿è·¯å¾„ä¸‹çš„å·¥ä½œç°¿
                            
                            With oWB
                                Set oWK = .Worksheets(1) 'oWK
                                    With oWK
-'####-----------------------------------------------------------------------Ã¿¹¤×÷±íµÄÖ¸¶¨ÁĞµÄÖµµÄ×Öµä---4
+'####-----------------------------------------------------------------------æ¯å·¥ä½œè¡¨çš„æŒ‡å®šåˆ—çš„å€¼çš„å­—å…¸---4
     Dim d As Object: Dim str As Variant: Dim strKey, fil, ifil, TextStream As String
-    Dim iwsq, twsNo, lrow, i, ii, iii As Long
+    Dim iwsq, twsNo, lrow, lcol, i, ii, iii As Long
     
-                                  iwsq = Worksheets.Count
-                                 twsNo = ActiveSheet.Index
+                                  iwsq = Worksheets.Count 'å·¥ä½œç°¿çš„å·¥ä½œè¡¨ä¸ªæ•°
+                                 twsNo = ActiveSheet.Index 'å·¥ä½œç°¿çš„å·¥ä½œè¡¨å½“å‰åºå·
                                  Set d = CreateObject("scripting.dictionary")
+                       '''å½“å‰æ´»åŠ¨å·¥ä½œç°¿æ´»åŠ¨å·¥ä½œè¡¨çš„å³ä¸‹è§’å•å…ƒæ ¼è¡Œæ•°----
                                   lrow = ActiveSheet.Cells.SpecialCells(xlCellTypeLastCell, xlLogical).Row
-                                   str = Range("I1:I" & lrow + 1 - 1)
+                                  lcol = ActiveSheet.Cells.SpecialCells(xlCellTypeLastCell, xlLogical).Column
+                                   str = Range("I1:I" & lrow + 1 - 1) 'é€‰å®šæ•°ç»„åŒºåŸŸèµ‹å€¼ç»™str"å­—å…¸ç›¸å…³"
                                        For i = 2 To lrow
                                       strKey = CStr(str(i, 1))
                                             If Not d.exists(strKey) Then
@@ -43,48 +45,54 @@ Set fs = CreateObject("Scripting.FileSystemObject") '±äÁ¿fsÎªÏµÍ³Ä¿Â¼¶ÔÏó'"fs"
                                        Next i
                              ActiveWorkbook.Worksheets.Add after:=Worksheets(iwsq)
                                Cells(1, 1).Resize(UBound(d.keys) + 1, 1) = Application.Transpose(d.keys)
-'#####-----------------------------------------------------ÔÚµ±Ç°¹¤×÷²¾×ÓÄ¿Â¼ĞÂ½¨ÎÄ¼ş¼Ğ²¢ÓÃ×ÖµäÊıÖµÃüÃû---5
-    ActiveWorkbook.Save
+'#####-----------------------------------------------------åœ¨å½“å‰å·¥ä½œç°¿å­ç›®å½•æ–°å»ºæ–‡ä»¶å¤¹å¹¶ç”¨å­—å…¸æ•°å€¼å‘½å---5
+    ActiveWorkbook.Save 'ä¿å­˜å½“å‰å·¥ä½œç°¿
                                         For ii = 1 To d.Count
                                            fil = Cells(ii, 1)
-                                            f = Dir(zfd & "\" & fil, vbDirectory)   'ÅĞ¶ÏÊÇ·ñÒÑ¾­´æÔÚ
+                                            f = Dir(zfd & "\" & fil, vbDirectory)   'åˆ¤æ–­æ˜¯å¦å·²ç»å­˜åœ¨
                                               If f = "" Then
-                                                 MkDir (zfd & "\" & fil)   'Èç¹û²»´æÔÚ¾Í½¨Á¢
+                                                 MkDir (zfd & "\" & fil)   'å¦‚æœä¸å­˜åœ¨å°±å»ºç«‹
                                               End If
 
-     Sheets(twsNo).Select '¼¤»î³õÊ¼¹¤×÷±í
-'######--------------------------------------------------ÔÚµ±Ç°¹¤×÷²¾×Ó×ÓÄ¿Â¼ĞÂ½¨cvsÎÄ¼ş²¢ÓÃ×ÖµäÊıÖµÃüÃû---6
+     Sheets(twsNo).Select 'æ¿€æ´»åˆå§‹å·¥ä½œè¡¨
+'######--------------------------------------------------åœ¨å½“å‰å·¥ä½œç°¿å­å­ç›®å½•æ–°å»ºcvsæ–‡ä»¶å¹¶ç”¨å­—å…¸æ•°å€¼å‘½å---6
                                          For iii = 2 To lrow
                                            ifil = Cells(iii, 3)
-                        f = Dir(zfd & "\" & fil & "\" & ifil & ".csv", vbDirectory)   'ÅĞ¶ÏÊÇ·ñÒÑ¾­´æÔÚ
+                        f = Dir(zfd & "\" & fil & "\" & ifil & ".csv", vbDirectory)   'åˆ¤æ–­æ˜¯å¦å·²ç»å­˜åœ¨
                                              nfil = zfd & "\" & fil & "\" & ifil & ".csv"
                                               If f = "" Then
-                                                   If Cells(iii, 9) = fil Then
+                                                   If Cells(iii, 9) = fil Then 'åˆ¤æ–­å•å…ƒæ ¼ç±»ä¸å½“å‰ç›®å½•ç±»åˆ«æ˜¯å¦ç›¸åŒ
                                                       With fs
-                                                           On Error Resume Next
-                                                           fff = fs.CreateTextFile(nfil, False)
+                                                           On Error Resume Next 'å¿½ç•¥é”™è¯¯æç¤ºç»§ç»­æ‰§è¡Œä¸‹ä¸€ä»£ç 
+                                                           fff = fs.CreateTextFile(nfil, False) 'åˆ›å»ºCVSæ–‡ä»¶
+'#######--------------------------------------------------------åœ¨åˆå§‹å·¥ä½œè¡¨æœ€ååˆ—åé¢åŠ ä¸Šå¯¹åº”CVSæ–‡ä»¶è·¯å¾„---7
+                                                               Cells(iii, lcol + 1).value = nfil
+                                                               Cells(iii, lcol + 1).Select
+                                                               ActiveSheet.Hyperlinks.Add Anchor:=Selection, Address:=nfil, _
+                                                               TextToDisplay:=nfil
+'#######-------------------------------------------------------------------------------------------------7
                                                       End With
                                                    End If
                                               End If
                                           Next iii
 '######-------------------------------------------------------------------------------------------------6
-                                         Sheets(twsNo + 1).Select
+                                         Sheets(twsNo + 1).Select 'é€‰ä¸­å­—å…¸å€¼ä¸´æ—¶å·¥ä½œè¡¨
                                         Next ii
 '#####--------------------------------------------------------------------------------------------------5
 '####---------------------------------------------------------------------------------------------------4
                                    End With
-                                   Sheets(twsNo + 1).Delete
-                                  ActiveWorkbook.Save
+                                   Sheets(twsNo + 1).Delete 'åˆ é™¤å­—å…¸å€¼ä¸´æ—¶å·¥ä½œè¡¨
+                                  ActiveWorkbook.Save 'ä¿å­˜å½“å‰å·¥ä½œç°¿
                                .Close
                            End With
 '###----------------------------------------------------------------------------------------------------3
-                    Application.DisplayAlerts = True
+                    Application.DisplayAlerts = True 'å¼€å¯å±å¹•æ›´æ–°
                     n = n + 1
                 Next
-            Set zf = Nothing
+            Set zf = Nothing 'zfå˜é‡é‡Šæ”¾ç½®ç©º
             n = n + 1
         Next
-    Set f = Nothing
-Set fs = Nothing
+    Set f = Nothing 'få˜é‡é‡Šæ”¾ç½®ç©º
+Set fs = Nothing 'fså˜é‡é‡Šæ”¾ç½®ç©º
 '##-----------------------------------------------------------------------------------------------------2
 End Sub
