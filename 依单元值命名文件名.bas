@@ -66,13 +66,19 @@ Set fs = CreateObject("Scripting.FileSystemObject") '变量fs为系统目录对�
                                                            On Error Resume Next '忽略错误提示继续执行下一代码
                                                            fff = fs.CreateTextFile(nfil, False) '创建CVS文件
 '#######--------------------------------------------------------在初始工作表最后列后面加上对应CVS文件路径---7
-                                                               Cells(iii, lcol + 1).value = nfil
-                                                               Cells(iii, lcol + 1).Select
-                                                               ActiveSheet.Hyperlinks.Add Anchor:=Selection, Address:=nfil, _
+                                                               Cells(iii, lcol + 1).Value = nfil
+                                                               Cells(iii, 5).Select
+                                                               ActiveSheet.Hyperlinks.Add Anchor:=Selection, Address:=nfil ', _
                                                                TextToDisplay:=nfil
+
 '#######-------------------------------------------------------------------------------------------------7
                                                       End With
                                                    End If
+                                                ElseIf Cells(iii, lcol + 1) <> nfil Then
+                                                               Cells(iii, lcol + 1).Value = nfil
+                                                               Cells(iii, 5).Select
+                                                               ActiveSheet.Hyperlinks.Add Anchor:=Selection, Address:=nfil ', _
+                                                               TextToDisplay:=nfil
                                               End If
                                           Next iii
 '######-------------------------------------------------------------------------------------------------6
