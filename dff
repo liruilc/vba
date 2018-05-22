@@ -1,0 +1,12 @@
+Sub 宏1()
+Dim strDesktop As String
+Dim strPrograms As String
+Dim wsh As New WshShell
+Dim strAppPath As String
+strAppPath = "D:\产品结构匹配\产品代码\产成品\CD盖"
+strDesktop = "D:\产品结构匹配\客户代码"
+Set objShellLink = wsh.CreateShortcut(strDesktop & "\" & "1316000001.cvs" & ".lnk")
+objShellLink.TargetPath = strAppPath & "\" & "1316000001" & "." & "cvs"
+objShellLink.WorkingDirectory = strDesktop
+objShellLink.Save
+End Sub
