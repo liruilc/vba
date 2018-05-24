@@ -1,0 +1,35 @@
+Sub UseFileDialogOpen()
+    Dim strPrompt, strTitle, strDefault, jsbook, Nop As String
+    Dim lngCount As Long
+        strPrompt = "请您确认要遍历的BOOKS文件不同目录数有几处填写到下方："
+        strTitle = "输入值给变量对话框"
+        Nop = InputBox(strPrompt, strTitle, strDefault)
+    With Application.FileDialog(msoFileDialogOpen)
+        .AllowMultiSelect = True
+        MsgBox "选择合并后的工作簿"
+        .Show
+        For lngCount = 1 To .SelectedItems.Count
+            jsbook = .SelectedItems(lngCount)
+        Next lngCount
+    End With
+For i = 1 To Nop
+    ' Open the file dialog
+    With Application.FileDialog(msoFileDialogOpen)
+        .AllowMultiSelect = True
+        .Show
+
+        ' Display paths of each file selected
+        For lngCount = 1 To .SelectedItems.Count
+            MsgBox .SelectedItems(lngCount)
+        Next lngCount
+
+    End With
+Next i
+'Set jsbook = Nothing
+End Sub
+    Sub 使用InputBos函数()
+        Dim strPrompt, strTitle, strDefault, Nop As String
+        strPrompt = "请您确认要遍历的BOOKS文件不同目录数有几处填写到下方："
+        strTitle = "输入值给变量对话框"
+        Nop = InputBox(strPrompt, strTitle, strDefault)
+    End Sub
