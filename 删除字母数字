@@ -1,0 +1,16 @@
+Sub aa()
+Dim i, j, m As Integer
+Dim delnumber As String
+For i = 1 To 1200
+For j = 1 To 1
+For m = 1 To Len(Cells(i, j))
+If Asc(Mid(Cells(i, j), m, 1)) >= 48 And Asc(Mid(Cells(i, j), m, 1)) <= 57 Or Asc(Mid(Cells(i, j), m, 1)) >= 97 And Asc(Mid(Cells(i, j), m, 1)) <= 122 Or Asc(Mid(Cells(i, j), m, 1)) >= 65 And Asc(Mid(Cells(i, j), m, 1)) <= 90 Then
+Else
+delnumber = delnumber & Mid(Cells(i, j), m, 1)
+End If
+Next
+Cells(i, j) = delnumber
+delnumber = ""
+Next
+Next
+End Sub
